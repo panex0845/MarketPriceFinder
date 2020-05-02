@@ -80,7 +80,7 @@ gui, submit, nohide
 c_string := ""
 c_list := ""
 global allcommodities := ""
-if (Inputtext="" or !(Wsite1 and Wsite1))
+if (Inputtext="" or (!Wsite1 and !Wsite2))
 {
     LV_Delete()
     LV_Add("", "錯誤！未輸入商品名稱或資料庫未勾選！","　　　　","　　　　")
@@ -89,7 +89,7 @@ if (Inputtext="" or !(Wsite1 and Wsite1))
 }
 else
 {
-    if (De_Iptx="")
+    if !De_Iptx
         De_Iptx := "AAAAAAAAAAAAAAAAAA叔叔開剁"
     Inputtext := StrSplit(Inputtext, "//")
     global M_De_Iptx := StrSplit(De_Iptx, "//")
@@ -97,6 +97,9 @@ else
     guicontrol, Disable, Inquire
     goods := 0
     LV_Delete()
+    LV_ModifyCol(1, "80") 
+    LV_ModifyCol(2, "850") 
+    LV_ModifyCol(3, "150 Integer")
     if Wsite1
         Goods += SearchGoods(inputtext, liststringArray_Coolpc, 1)
     if Wsite2
@@ -160,8 +163,6 @@ SearchGoods(inputtext, liststringArray, Data=0) {
                 {
                     c_stringArray[2] := RegExReplace(c_stringArray[2], "|\$|◆|★|熱|賣| |")
                     LV_Add("", fdata, c_stringArray[1], c_stringArray[2])
-                    LV_ModifyCol() 
-                    LV_ModifyCol(3, "Integer")
                     goods++
                     allcommodities .= c_stringArray[1] . c_stringArray[2] "`n"
                 }
